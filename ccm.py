@@ -38,8 +38,7 @@ limitations under the License.
 """
 __author__ = 'Avery Rozar'
 
-from modules.cmds import *
-from modules.config_mode import *
-from modules.send_cmd import *
+from cmds import *
+from config_mode import *
+from send_cmd import *
 import argparse
-

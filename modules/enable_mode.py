@@ -38,8 +38,10 @@ limitations under the License.
 """
 __author__ = 'Avery Rozar'
 
-from prompts import *
 import pexpect
+
+from modules.prompts import *
+
 
 def enable_mode(user, host, passwd, en_passwd):
     ssh_newkey = 'Are you sure you want to continue connecting (yes/no)?'

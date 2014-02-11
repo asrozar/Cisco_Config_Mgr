@@ -38,6 +38,7 @@ limitations under the License.
 """
 __author__ = 'Avery Rozar'
 
+SHOWRUN = 'show run'
 SNMPGROUPCMD = ' snmp-server group '
 V3PRIVCMD = ' v3 priv '
 SNMPSRVUSRCMD = ' snmp-server user '

@@ -41,13 +41,13 @@ __author__ = 'Avery Rozar'
 import argparse
 import ConfigParser
 import sys
+import time
 from modules.enable_mode import *
 from modules.send_cmd import *
 from modules.cmds import *
 
-def main(argv=None):
-    if argv is None:
-        argv = sys.argv
+
+def main():
     conf_parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter,
                                           add_help=False)
     conf_parser.add_argument('--conf_file', help='Specify a conf file', metavar='FILE')
@@ -62,7 +62,6 @@ def main(argv=None):
         defaults = {'option': 'default'}
     parser = argparse.ArgumentParser(parents=[conf_parser])
     parser.set_defaults(**defaults)
-    parser.add_argument('--option')
 
     args = parser.parse_args()
     hosts = args.hosts
@@ -74,8 +73,10 @@ def main(argv=None):
         for line in hosts:
             host = line.rstrip()
             child = enable_mode(user, host, passwd, en_passwd)
-
             if child:
+                current_time = time.strftime('%m.%d.%y.%M.%S', time.localtime())
+                output_name = "cisco_configs/{0}_{1}.txt".format(host, current_time)
+                sys.stdout = open(output_name, 'w')
                 send_command(child, SHOWRUN)
     else:
         print('I need hosts!!')

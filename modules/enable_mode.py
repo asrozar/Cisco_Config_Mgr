@@ -41,6 +41,7 @@ __author__ = 'Avery Rozar'
 import pexpect
 
 from modules.prompts import *
+from modules.cmds import *
 
 
 def enable_mode(user, host, passwd, en_passwd):
@@ -54,7 +55,7 @@ def enable_mode(user, host, passwd, en_passwd):
         return
     if ret == 1:
         child.sendline('yes')
-        ret = child.expect([pexpect.TIMEOUT, '[P|p]assword:'])
+        ret = child.expect([pexpect.TIMEOUT])
         if ret == 0:
             print '[-] Could not accept new key from ' + host
             return
@@ -71,10 +72,41 @@ def enable_mode(user, host, passwd, en_passwd):
             print 'enable password for ' + host + ' is incorrect'
             return
         if enable == 1:
-            child.sendline('terminal pager 0')
+            child.sendline(SHOWVER)
+            what_os = child.expect([pexpect.TIMEOUT, '.IOS.', '.Adaptive.'])
+            if what_os == 0:
+                print 'show ver' + ' time out' + 'for ' + host
+                return
+            if what_os == 1:  # IOS
+                child.sendcontrol('c')
+                child.expect(PRIV_EXEC_MODE)
+                child.sendline(IOSTERMLEN0)
+                child.expect(PRIV_EXEC_MODE)
+                return child
+            if what_os == 2:  # ASAOS
+                child.sendline(QOUTMORE)
+                child.expect(PRIV_EXEC_MODE)
+                child.sendline(ASATERMPAGER0)
+                child.expect(PRIV_EXEC_MODE)
+                return child
+    if auth == 2:
+        child.sendline(SHOWVER)
+        what_os = child.expect([pexpect.TIMEOUT,  '.IOS.', '.Adaptive.'])
+        if what_os == 0:
+            print 'show ver' + ' time out' + 'for ' + host
+            return
+        if what_os == 1:  # IOS
+            child.sendcontrol('c')
+            child.expect(PRIV_EXEC_MODE)
+            child.sendline(IOSTERMLEN0)
             child.expect(PRIV_EXEC_MODE)
             return child
-    if auth == 2:
-        child.sendline('terminal pager 0')
-        child.expect(PRIV_EXEC_MODE)
-        return child
+        if what_os == 2:  # ASAOS
+            child.sendline(QOUTMORE)
+            child.expect(PRIV_EXEC_MODE)
+            child.sendline(ASATERMPAGER0)
+            child.expect(PRIV_EXEC_MODE)
+            return child
+
+    else:
+        print 'Failed to log in to ' + host

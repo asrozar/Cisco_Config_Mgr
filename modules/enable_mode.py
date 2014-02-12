@@ -48,7 +48,7 @@ def enable_mode(user, host, passwd, en_passwd):
     ssh_newkey = 'Are you sure you want to continue connecting (yes/no)?'
     constr = 'ssh ' + user + '@' + host
     child = pexpect.spawn(constr)
-    ret = child.expect([pexpect.TIMEOUT, ssh_newkey, '[P|p]assword:'])
+    ret = child.expect([pexpect.TIMEOUT, ssh_newkey, '[P|p]assword:', '.Connection refused.'])
 
     if ret == 0:
         print '[-] Error Connecting to ' + host
@@ -59,6 +59,9 @@ def enable_mode(user, host, passwd, en_passwd):
         if ret == 0:
             print '[-] Could not accept new key from ' + host
             return
+    if ret == 3:
+        print '[-] Could not connect to ' + host
+        return
     child.sendline(passwd)
     auth = child.expect(['[P|p]assword:', '.>', '.#'])
     if auth == 0:

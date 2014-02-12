@@ -40,7 +40,6 @@ __author__ = 'Avery Rozar'
 
 SHOWVER = 'show version'
 SHOWRUN = 'show run'
-QOUTMORE = 'q'
 ASATERMPAGER0 = 'terminal pager 0'
 IOSTERMLEN0 = 'terminal length 0'
 SNMPGROUPCMD = ' snmp-server group '

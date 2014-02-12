@@ -75,7 +75,7 @@ def enable_mode(user, host, passwd, en_passwd):
             child.sendline(SHOWVER)
             what_os = child.expect([pexpect.TIMEOUT, '.IOS.', '.Adaptive.'])
             if what_os == 0:
-                print 'show ver' + ' time out' + 'for ' + host
+                print 'show ver' + ' time out' + ' for ' + host
                 return
             if what_os == 1:  # IOS
                 child.sendcontrol('c')
@@ -84,11 +84,12 @@ def enable_mode(user, host, passwd, en_passwd):
                 child.expect(PRIV_EXEC_MODE)
                 return child
             if what_os == 2:  # ASAOS
-                child.sendline(QOUTMORE)
+                child.send('q')
                 child.expect(PRIV_EXEC_MODE)
                 child.sendline(ASATERMPAGER0)
                 child.expect(PRIV_EXEC_MODE)
                 return child
+
     if auth == 2:
         child.sendline(SHOWVER)
         what_os = child.expect([pexpect.TIMEOUT,  '.IOS.', '.Adaptive.'])
@@ -102,10 +103,11 @@ def enable_mode(user, host, passwd, en_passwd):
             child.expect(PRIV_EXEC_MODE)
             return child
         if what_os == 2:  # ASAOS
-            child.sendline(QOUTMORE)
+            child.sendline('q')
             child.expect(PRIV_EXEC_MODE)
             child.sendline(ASATERMPAGER0)
             child.expect(PRIV_EXEC_MODE)
+            print 'line 111'
             return child
 
     else:

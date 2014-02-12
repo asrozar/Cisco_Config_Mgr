@@ -48,7 +48,7 @@ from modules.cmds import *
 
 
 def main():
-    conf_parser = argparse.ArgumentParser(__doc__, formatter_class=argparse.RawDescriptionHelpFormatter,
+    conf_parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter,
                                           add_help=False)
     conf_parser.add_argument('--conf_file', help='Specify a conf file', metavar='FILE')
     conf_parser.add_argument('--host_file', dest='hosts', type=file, help='specify a target host file')

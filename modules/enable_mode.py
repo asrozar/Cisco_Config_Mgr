@@ -112,7 +112,7 @@ def enable_mode(user, host, passwd, en_passwd):
             child.expect(PRIV_EXEC_MODE)
             return child
         if what_os == 2:  # ASAOS
-            child.sendline(QOUTMORE)
+            child.send(QOUTMORE)
             child.expect(PRIV_EXEC_MODE)
             child.sendline(ASATERMPAGER0)
             child.expect(PRIV_EXEC_MODE)

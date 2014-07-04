@@ -75,7 +75,7 @@ def enable_mode(user, host, passwd, en_passwd):
             print 'enable password for ' + host + ' is incorrect'
             return
         if enable == 1:
-            child.sendline(SHOWVER)
+            child.sendline(SHOWVER)  # find out what Cisco OS we are working with
             what_os = child.expect([pexpect.TIMEOUT, '.IOS.', '.Adaptive.', '.Nexus.'])
             if what_os == 0:
                 print 'show ver' + ' time out' + ' for ' + host
@@ -100,7 +100,7 @@ def enable_mode(user, host, passwd, en_passwd):
                 return child
 
     if auth == 2:
-        child.sendline(SHOWVER)
+        child.sendline(SHOWVER)  # find out what Cisco OS we are working with
         what_os = child.expect([pexpect.TIMEOUT,  '.IOS.', '.Adaptive.', '.Nexus.'])
         if what_os == 0:
             print 'show ver' + ' time out' + 'for ' + host

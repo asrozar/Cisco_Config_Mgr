@@ -68,6 +68,7 @@ def main():
     user = args.user
     passwd = args.passwd
     en_passwd = args.en_passwd
+    conf_path = args.conf_path
 
     if hosts:
         for line in hosts:
@@ -75,7 +76,7 @@ def main():
             child = enable_mode(user, host, passwd, en_passwd)
             if child:
                 current_time = time.strftime('%m.%d.%y.%M.%S', time.localtime())
-                output_name = "cisco_configs/{0}_{1}.txt".format(host, current_time)
+                output_name = conf_path/'{0}_{1}.txt'.format(host, current_time)
                 sys.stdout = open(output_name, 'w')
                 send_command(child, SHOWRUN)
     else:
